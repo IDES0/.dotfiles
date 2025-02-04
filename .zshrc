@@ -139,4 +139,7 @@ export NNN_FCOLORS='c1e2272e006033f7c6d6abc4'
 export NARGO_HOME="$HOME/.nargo"
 export PATH="$PATH:$NARGO_HOME/bin"
 
+
+#export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+
 eval "$(starship init zsh)"

@@ -7,3 +7,6 @@ configstore/
 Autodesk/
 __pycache__
 .DS_Store
+gcloud/
+jgit/
+simple-update-notifier/
