@@ -72,14 +72,14 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 [gaps]
 inner.horizontal = 10
 inner.vertical = 10
-outer.left = 10
-outer.bottom = 10
+outer.left = 3
+outer.bottom = 3
 outer.top = [
   { monitor."LG HDR 4K" = 40 },
   { monitor."Sidecar Display" = 40 },
   10,
 ]
-outer.right = 10
+outer.right = 3
 
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -209,28 +209,3 @@ alt-shift-right = [
   'mode main',
   'exec-and-forget sketchybar --trigger aerospace_leave_service_mode',
 ]
-
-[[on-window-detected]]
-if.app-name-regex-substring = '^wezterm-gui$'
-run = 'move-node-to-workspace 1'
-
-[[on-window-detected]]
-if.app-id = 'company.thebrowser.Browser'
-run = 'move-node-to-workspace 2'
-
-[[on-window-detected]]
-if.app-id = 'com.todesktop.230313mzl4w4u92'
-run = 'move-node-to-workspace 3'
-
-[[on-window-detected]]
-if.app-id = 'com.jetbrains.intellij'
-run = 'move-node-to-workspace 3'
-
-
-[[on-window-detected]]
-if.app-id = 'ru.keepcoder.Telegram'
-run = 'move-node-to-workspace 9'
-
-[[on-window-detected]]
-if.app-id = 'net.whatsapp.WhatsApp'
-run = 'move-node-to-workspace 9'
