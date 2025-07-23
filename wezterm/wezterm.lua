@@ -14,6 +14,7 @@ return {
     default_cursor_style = "BlinkingBlock",
     color_scheme = "Poimandres",
     colors = {
+        background = "#000000", -- <--- ADD THIS LINE FOR PURE BLACK BACKGROUND
         cursor_bg = "#A6ACCD",
         cursor_border = "#A6ACCD",
         cursor_fg = "#1B1E28"

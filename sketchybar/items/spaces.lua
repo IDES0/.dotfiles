@@ -41,7 +41,7 @@ for i, workspace in ipairs(workspaces) do
         padding_right = 1,
         padding_left = 1,
         background = {
-            color = settings.items.colors.background,
+            color = 0xff000000,
             border_width = 1,
             height = settings.items.height,
             border_color = selected and settings.items.highlight_color(i) or settings.items.default_color(i)
@@ -70,6 +70,17 @@ for i, workspace in ipairs(workspaces) do
 
         if no_app then
             icon_line = " —"
+            -- Hide workspace if it's empty and not workspace 1 (always keep workspace 1 visible)
+            if workspace ~= "1" then
+                space:set({
+                    drawing = false
+                })
+            end
+        else
+            -- Show workspace if it has apps
+            space:set({
+                drawing = true
+            })
         end
 
         sbar.animate("tanh", 10, function()
@@ -101,18 +112,35 @@ for i, workspace in ipairs(workspaces) do
 
     space:subscribe("aerospace_workspace_change", function(env)
         local selected = env.FOCUSED_WORKSPACE == workspace
-        space:set({
-            icon = {
-                highlight = selected
-            },
-            label = {
-                highlight = selected
-            },
-            background = {
-                border_color = selected and settings.items.highlight_color(i) or settings.items.default_color(i)
-            }
-        })
-
+        
+        -- Check if workspace has windows before showing it
+        sbar.exec("aerospace list-windows --workspace " .. workspace .. " --format '%{app-name}' --json ", function(apps)
+            local has_windows = false
+            for _, app in ipairs(apps) do
+                has_windows = true
+                break
+            end
+            
+            -- Only show workspace if it has windows or is workspace 1
+            if has_windows or workspace == "1" then
+                space:set({
+                    drawing = true,
+                    icon = {
+                        highlight = selected
+                    },
+                    label = {
+                        highlight = selected
+                    },
+                    background = {
+                        border_color = selected and settings.items.highlight_color(i) or settings.items.default_color(i)
+                    }
+                })
+            else
+                space:set({
+                    drawing = false
+                })
+            end
+        end)
     end)
 
     space:subscribe("mouse.clicked", function(env)
@@ -147,29 +175,6 @@ local space_window_observer = sbar.add("item", {
     updates = true
 })
 
--- Handles the small icon indicator for spaces / menus changes
-local spaces_indicator = sbar.add("item", {
-    padding_left = -3,
-    padding_right = 0,
-    icon = {
-        padding_left = 8,
-        padding_right = 9,
-        color = colors.grey,
-        string = icons.switch.on
-    },
-    label = {
-        width = 0,
-        padding_left = 0,
-        padding_right = 8,
-        string = "Spaces",
-        color = colors.bg1
-    },
-    background = {
-        color = colors.with_alpha(colors.grey, 0.0),
-        border_color = colors.with_alpha(colors.bg1, 0.0)
-    }
-})
-
 -- Event handles
 space_window_observer:subscribe("space_windows_change", function(env)
     for i, workspace in ipairs(workspaces) do
@@ -186,6 +191,17 @@ space_window_observer:subscribe("space_windows_change", function(env)
 
             if no_app then
                 icon_line = " —"
+                -- Hide workspace if it's empty and not workspace 1
+                if workspace ~= "1" then
+                    spaces[i]:set({
+                        drawing = false
+                    })
+                end
+            else
+                -- Show workspace if it has apps
+                spaces[i]:set({
+                    drawing = true
+                })
             end
 
             sbar.animate("tanh", 10, function()
@@ -212,6 +228,17 @@ space_window_observer:subscribe("aerospace_focus_change", function(env)
 
             if no_app then
                 icon_line = " —"
+                -- Hide workspace if it's empty and not workspace 1
+                if workspace ~= "1" then
+                    spaces[i]:set({
+                        drawing = false
+                    })
+                end
+            else
+                -- Show workspace if it has apps
+                spaces[i]:set({
+                    drawing = true
+                })
             end
 
             sbar.animate("tanh", 10, function()
@@ -221,57 +248,4 @@ space_window_observer:subscribe("aerospace_focus_change", function(env)
             end)
         end)
     end
-end)
-
-spaces_indicator:subscribe("swap_menus_and_spaces", function(env)
-    local currently_on = spaces_indicator:query().icon.value == icons.switch.on
-    spaces_indicator:set({
-        icon = currently_on and icons.switch.off or icons.switch.on
-    })
-end)
-
-spaces_indicator:subscribe("mouse.entered", function(env)
-    sbar.animate("tanh", 30, function()
-        spaces_indicator:set({
-            background = {
-                color = {
-                    alpha = 1.0
-                },
-                border_color = {
-                    alpha = 1.0
-                }
-            },
-            icon = {
-                color = colors.bg1
-            },
-            label = {
-                width = "dynamic"
-            }
-        })
-    end)
-end)
-
-spaces_indicator:subscribe("mouse.exited", function(env)
-    sbar.animate("tanh", 30, function()
-        spaces_indicator:set({
-            background = {
-                color = {
-                    alpha = 0.0
-                },
-                border_color = {
-                    alpha = 0.0
-                }
-            },
-            icon = {
-                color = colors.grey
-            },
-            label = {
-                width = 0
-            }
-        })
-    end)
-end)
-
-spaces_indicator:subscribe("mouse.clicked", function(env)
-    sbar.trigger("swap_menus_and_spaces")
 end)

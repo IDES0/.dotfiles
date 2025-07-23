@@ -80,9 +80,26 @@ space_menu_swap:subscribe("swap_menus_and_spaces", function(env)
         sbar.set("/menu\\..*/", {
             drawing = false
         })
-        sbar.set("/item\\..*/", {
-            drawing = true
-        })
+        -- Only show workspaces that have windows or are workspace 1
+        for i = 1, 9 do
+            sbar.exec("aerospace list-windows --workspace " .. i .. " --format '%{app-name}' --json ", function(apps)
+                local has_windows = false
+                for _, app in ipairs(apps) do
+                    has_windows = true
+                    break
+                end
+                
+                if has_windows or i == 1 then
+                    sbar.set("item." .. i, {
+                        drawing = true
+                    })
+                else
+                    sbar.set("item." .. i, {
+                        drawing = false
+                    })
+                end
+            end)
+        end
         sbar.set("front_app", {
             drawing = true
         })

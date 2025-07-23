@@ -30,7 +30,7 @@ local wifi_up = sbar.add("item", "widgets.wifi1", {
         color = colors.red,
         string = "??? Bps"
     },
-    y_offset = 4
+    y_offset = 6
 })
 
 local wifi_down = sbar.add("item", "widgets.wifi2", {
@@ -53,7 +53,7 @@ local wifi_down = sbar.add("item", "widgets.wifi2", {
         color = colors.blue,
         string = "??? Bps"
     },
-    y_offset = -4
+    y_offset = -6
 })
 
 local wifi = sbar.add("item", "widgets.wifi.padding", {
@@ -66,7 +66,7 @@ local wifi = sbar.add("item", "widgets.wifi.padding", {
 -- Background around the item
 local wifi_bracket = sbar.add("bracket", "widgets.wifi.bracket", {wifi.name, wifi_up.name, wifi_down.name}, {
     background = {
-        color = colors.bg1,
+        color = 0xff000000,
         border_color = colors.rainbow[#colors.rainbow - 4],
         border_width = 1
     },
@@ -88,7 +88,7 @@ local ssid = sbar.add("item", {
     align = "center",
     label = {
         font = {
-            size = 15,
+            size = 15.0,
             style = settings.font.style_map["Bold"]
         },
         max_chars = 18,

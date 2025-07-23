@@ -5,9 +5,11 @@ local settings = require("settings")
 local apple = sbar.add("item", {
     icon = {
         font = {
-            size = 22.0
+            family = "FiraCode Nerd Font Mono",
+            size = 30.0
         },
-        string = settings.modes.main.icon,
+        string = "",
+        color = 0xffff007c,
         padding_right = 8,
         padding_left = 8,
         highlight_color = settings.modes.service.color
@@ -16,15 +18,19 @@ local apple = sbar.add("item", {
         drawing = false
     },
     background = {
-        color = settings.items.colors.background,
+        color = 0xff000000,
         border_color = settings.modes.main.color,
         border_width = 1
     },
 
-    padding_left = 1,
+    padding_left = 0,
     padding_right = 1,
-    click_script = "$CONFIG_DIR/helpers/menus/bin/menus -s 0"
+    click_script = "$CONFIG_DIR/scripts/caffeine.sh",
+    script = "$CONFIG_DIR/scripts/caffeine.sh status"
 })
+
+-- Check initial caffeine status
+sbar.exec("$CONFIG_DIR/scripts/caffeine.sh status")
 
 apple:subscribe("aerospace_enter_service_mode", function(_)
     sbar.animate("tanh", 10, function()
@@ -51,7 +57,7 @@ apple:subscribe("aerospace_leave_service_mode", function(_)
             },
             icon = {
                 highlight = false,
-                string = settings.modes.main.icon
+                string = ""
             }
         })
     end)
@@ -61,3 +67,4 @@ end)
 sbar.add("item", {
     width = 7
 })
+

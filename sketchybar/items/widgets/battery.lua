@@ -12,7 +12,8 @@ local battery = sbar.add("item", "widgets.battery", {
     },
     label = {
         font = {
-            family = settings.font.numbers
+            family = settings.font.numbers,
+            size = 15.0
         }
     },
     update_freq = 180,
@@ -31,7 +32,10 @@ local remaining_time = sbar.add("item", {
     label = {
         string = "??:??h",
         width = 100,
-        align = "right"
+        align = "right",
+        font = {
+            size = 15.0
+        }
     }
 })
 
@@ -105,7 +109,7 @@ end)
 
 sbar.add("bracket", "widgets.battery.bracket", {battery.name}, {
     background = {
-        color = colors.bg1,
+        color = 0xff000000,
         border_color = colors.rainbow[#colors.rainbow - 2],
         border_width = 1
     }
@@ -113,5 +117,5 @@ sbar.add("bracket", "widgets.battery.bracket", {battery.name}, {
 
 sbar.add("item", "widgets.battery.padding", {
     position = "right",
-    width = settings.group_paddings
+    width = settings.items.gap
 })

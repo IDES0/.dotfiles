@@ -1,58 +1,61 @@
-local settings = require("settings")
 local colors = require("colors")
 
--- Padding item required because of bracket
-sbar.add("item", {
+-- Date (top)
+local date = sbar.add("item", "date", {
     position = "right",
-    width = settings.group_paddings
+    icon = { drawing = false },
+    label = {
+        font = { size = 10 },
+        color = colors.white,
+        align = "right",
+        padding_right = 4,
+    },
+    y_offset = 8,
+    width = 0,
+    update_freq = 60,
 })
 
-local cal = sbar.add("item", {
-    icon = {
-        color = colors.white,
-        padding_left = 8,
-        font = {
-            size = 22.0
-        }
-    },
-    label = {
-        color = colors.white,
-        padding_right = 8,
-        width = 80,
-        align = "right",
-        font = {
-            family = settings.icons
-        }
-    },
+-- Time (bottom)
+local clock = sbar.add("item", "clock", {
     position = "right",
-    update_freq = 30,
-    padding_left = 1,
-    padding_right = 1,
+    icon = { drawing = false },
+    label = {
+        font = { size = 14, style = "Bold" },
+        color = colors.white,
+        align = "right",
+        padding_right = 4,
+    },
+    y_offset = -6,
+    update_freq = 10,
+})
+
+date:subscribe({"forced", "routine", "system_woke"}, function()
+    date:set({ label = os.date("%a, %b %d") })
+end)
+
+clock:subscribe({"forced", "routine", "system_woke"}, function()
+    clock:set({ label = os.date("%I:%M %p") })
+end)
+
+date:subscribe("mouse.clicked", function()
+    os.execute("open -a Calendar.app")
+end)
+
+clock:subscribe("mouse.clicked", function()
+    os.execute("open -a Calendar.app")
+end)
+
+sbar.add("bracket", "calendar.bracket", {date.name, clock.name}, {
     background = {
-        color = colors.bg2,
+        color = 0xff000000,
         border_color = colors.rainbow[#colors.rainbow],
-        border_width = 1
+        border_width = 1,
+        corner_radius = 8,
     }
 })
-
--- Double border for calendar using a single item bracket
--- sbar.add("bracket", { cal.name }, {
---   background = {
---     color = colors.transparent,
---     height = 30,
---     border_color = colors.grey,
---   }
--- })
-
--- Padding item required because of bracket
-sbar.add("item", {
+-- Add padding item to control right spacing
+sbar.add("item", "calendar.padding", {
     position = "right",
-    width = settings.group_paddings
+    width = 8  -- Set this to 0 or a negative value to move the widget closer to the right edge
 })
 
-cal:subscribe({"forced", "routine", "system_woke"}, function(env)
-    cal:set({
-        icon = "",
-        label = os.date("%m/%d %H:%M")
-    })
-end)

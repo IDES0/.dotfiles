@@ -19,7 +19,8 @@ local cpu = sbar.add("graph", "widgets.cpu", 42, {
         border_color = {
             alpha = 0
         },
-        drawing = true
+        drawing = true,
+        clip = 1
     },
     icon = {
         string = icons.cpu
@@ -32,11 +33,9 @@ local cpu = sbar.add("graph", "widgets.cpu", 42, {
             size = 9.0
         },
         align = "right",
-        padding_right = 0,
         width = 0,
         y_offset = 4
-    },
-    padding_right = settings.paddings + 6
+    }
 })
 
 cpu:subscribe("cpu_update", function(env)
@@ -70,14 +69,15 @@ end)
 -- Background around the cpu item
 sbar.add("bracket", "widgets.cpu.bracket", {cpu.name}, {
     background = {
-        color = colors.bg1,
+        color = 0xff000000,
         border_color = colors.rainbow[#colors.rainbow - 5],
-        border_width = 1
+        border_width = 1,
+        clip = 1
     }
 })
 
 -- Background around the cpu item
 sbar.add("item", "widgets.cpu.padding", {
     position = "right",
-    width = settings.group_paddings
+    width = settings.items.gap
 })

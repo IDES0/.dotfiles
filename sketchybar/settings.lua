@@ -2,8 +2,8 @@ local colors = require("colors")
 local icons = require("icons")
 
 return {
-    paddings = 3,
-    group_paddings = 5,
+    paddings = 6,
+    group_paddings = 12,
     modes = {
         main = {
             icon = icons.rebel,
@@ -15,21 +15,21 @@ return {
         }
     },
     bar = {
-        height = 36,
+        height = 42,
         padding = {
-            x = 10,
+            x = 4,
             y = 0
         },
         background = colors.bar.bg
     },
     items = {
-        height = 26,
-        gap = 5,
+        height = 32,
+        gap = 8,
         padding = {
-            right = 16,
-            left = 12,
-            top = 0,
-            bottom = 0
+            right = 18,
+            left = 14,
+            top = 2,
+            bottom = 2
         },
         default_color = function(workspace)
             return colors.rainbow[workspace + 1]
@@ -40,10 +40,10 @@ return {
         colors = {
             background = colors.bg1
         },
-        corner_radius = 6
+        corner_radius = 8
     },
 
-    icons = "sketchybar-app-font:Regular:16.0", -- alternatively available: NerdFont
+    icons = "sketchybar-app-font:Regular:18.0", -- slightly smaller icon font
 
     font = {
         text = "FiraCode Nerd Font Mono", -- Used for text
