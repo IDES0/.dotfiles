@@ -3,7 +3,7 @@
 
 Hey there! This is my personal MacOS configuration files focused on creating a minimal, functional, and aesthetically pleasing development environment for both work and personal projects.
 
-As a previous linux/i3wm user I've been trying to get the best of both worlds and create a setup that feels natural and easy to use, as of today the best option for this is using Aerospace + Borders + SketchyBar.
+Goal: Create a setup that feels natural and easy to use, for this is, I use Aerospace + Borders + SketchyBar.
 
 ## Features
 
