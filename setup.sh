@@ -38,8 +38,8 @@ brew install --cask font-sf-mono
 brew install --cask font-sf-pro
 brew install --cask font-sketchybar-app-font
 brew install --cask font-fira-code-nerd-font
-# SbarLua
 
+# SbarLua 
 (git clone https://github.com/FelixKratz/SbarLua.git /tmp/SbarLua && cd /tmp/SbarLua/ && make install && rm -rf /tmp/SbarLua/)
 
 
