@@ -48,7 +48,6 @@ brew install --cask font-fira-code-nerd-font
 
 # Symlink configs
 mkdir -p "$HOME/.config"
-mkdir -p "$HOME/.config/wezterm"
 
 # Remove and recreate sketchybar symlink
 rm -rf "$HOME/.config/sketchybar"
