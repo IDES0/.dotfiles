@@ -48,7 +48,7 @@ end)
 sbar.add("bracket", "calendar.bracket", {date.name, clock.name}, {
     background = {
         color = 0xff000000,
-        border_color = colors.rainbow[#colors.rainbow],
+        border_color = colors.white,
         border_width = 1,
         corner_radius = 8,
     }

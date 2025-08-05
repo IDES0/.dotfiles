@@ -30,7 +30,7 @@ end)
 sbar.add("bracket", "widgets.sidecar.bracket", {sidecar.name}, {
     background = {
         color = 0xff000000,
-        border_color = colors.rainbow[#colors.rainbow - 2],
+        border_color = colors.white,
         border_width = 1
     }
 })

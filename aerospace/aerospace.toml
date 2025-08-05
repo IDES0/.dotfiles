@@ -26,8 +26,9 @@ exec-on-workspace-change = [
   'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE FOCUSED_DISPLAY=$(aerospace list-monitors --focused | awk "{print $1}")',
 ]
 
-# Notify Sketchybar about focuse change
+# Notify Sketchybar about focus change
 # See https://nikitabobko.github.io/AeroSpace/guide#on-focus-changed-callbacks
+# Commented out to avoid duplicate events with exec-on-workspace-change
 on-focus-changed = [
   'exec-and-forget sketchybar --trigger aerospace_focus_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE',
 ]
@@ -81,6 +82,20 @@ outer.top = [
 ]
 outer.right = 3
 
+# TODO: Possibly delete this entire Section
+# Workspace to monitor assignments
+# This helps maintain workspace organization across monitors
+# Format: workspace-name = monitor-pattern
+# Monitor patterns can be: monitor-id, monitor-name, or monitor-pattern
+[workspace-to-monitor-force-assignment]
+# Example assignments (uncomment and modify as needed):
+# "1" = "monitor.1"
+# "2" = "monitor.1" 
+# "3" = "monitor.1"
+# "4" = "monitor.2"
+# "5" = "monitor.2"
+# "6" = "monitor.2"
+
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
 # 'main' binding mode must be always presented
@@ -101,12 +116,15 @@ outer.right = 3
 
 # All possible commands: https://nikitabobko.github.io/AeroSpace/commands
 
-# You can uncomment this line to open up terminal with alt + enter shortcut
+# App Shortcuts:
 # See: https://nikitabobko.github.io/AeroSpace/commands#exec-and-forget
+# See: https://nikitabobko.github.io/AeroSpace/goodness#open-a-new-window-with-applescript
+# Example:
 # alt-enter = 'exec-and-forget open -n /System/Applications/Utilities/Terminal.app'
 
-# See: https://nikitabobko.github.io/AeroSpace/goodness#open-a-new-window-with-applescript
-alt-t = 'exec-and-forget wezterm start'
+alt-t = 'exec-and-forget open -n -a wezterm'
+alt-a = 'exec-and-forget open -a arc'
+alt-c = 'exec-and-forget open -a cursor'
 
 cmd-h = []     # Disable "hide application"
 cmd-alt-h = [] # Disable "hide others"

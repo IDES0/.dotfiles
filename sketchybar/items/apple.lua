@@ -9,7 +9,7 @@ local apple = sbar.add("item", {
             size = 30.0
         },
         string = "",
-        color = 0xffff007c,
+        color = 0xff00d4ff,
         padding_right = 8,
         padding_left = 8,
         highlight_color = settings.modes.service.color
@@ -19,7 +19,7 @@ local apple = sbar.add("item", {
     },
     background = {
         color = 0xff000000,
-        border_color = settings.modes.main.color,
+        border_color = 0xff00d4ff,
         border_width = 1
     },
 
