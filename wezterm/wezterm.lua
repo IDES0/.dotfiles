@@ -38,6 +38,9 @@ return {
         bottom = 30
     },
     window_decorations = "RESIZE",
+    -- Don't resize the window on DPI/font changes (e.g. moving between
+    -- Retina and external monitors); let AeroSpace own the window size
+    adjust_window_size_when_changing_font_size = false,
     inactive_pane_hsb = {
         brightness = 0.7
     },

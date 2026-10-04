@@ -1,24 +1,35 @@
 #!/bin/bash
 
-# Check if this is a status check
-if [[ "$1" == "status" ]]; then
-    if pgrep -x "caffeinate" > /dev/null; then
-        # Caffeine is active
-        sketchybar --set "$NAME" icon.string="" icon.color=0xff00ff00
+# Toggles our own caffeinate process. We track it by PID so we never
+# touch caffeinate processes started by other apps.
+
+PIDFILE="${TMPDIR:-/tmp}/sketchybar_caffeine.pid"
+ITEM="${NAME:-apple}"
+ON_ICON=""
+OFF_ICON=""
+ON_COLOR=0xff00ff00
+OFF_COLOR=0xff00d4ff
+
+is_active() {
+    [[ -f "$PIDFILE" ]] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null
+}
+
+render() {
+    if is_active; then
+        sketchybar --set "$ITEM" icon.string="$ON_ICON" icon.color=$ON_COLOR
     else
-        # Caffeine is not active
-        sketchybar --set "$NAME" icon.string="" icon.color=0xffff007c
+        sketchybar --set "$ITEM" icon.string="$OFF_ICON" icon.color=$OFF_COLOR
     fi
-    exit 0
+}
+
+if [[ "$1" != "status" ]]; then
+    if is_active; then
+        kill "$(cat "$PIDFILE")" 2>/dev/null
+        rm -f "$PIDFILE"
+    else
+        nohup caffeinate -i >/dev/null 2>&1 &
+        echo $! > "$PIDFILE"
+    fi
 fi
 
-# Handle click - toggle caffeine
-if pgrep -x "caffeinate" > /dev/null; then
-    # Caffeine is active, kill it
-    pkill -x "caffeinate"
-    sketchybar --set "$NAME" icon.string="" icon.color=0xffff007c
-else
-    # Caffeine is not active, start it
-    caffeinate -i &
-    sketchybar --set "$NAME" icon.string="" icon.color=0xff00ff00
-fi 
+render

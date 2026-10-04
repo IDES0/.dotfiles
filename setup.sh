@@ -3,8 +3,21 @@
 echo "Installing Dependencies"
 
 # Install xCode cli tools
-echo "Installing commandline tools..."
-xcode-select --install
+# xcode-select --install only opens the installer dialog and returns
+# immediately, so wait until the tools actually exist before continuing
+if ! xcode-select -p &>/dev/null; then
+  echo "Installing commandline tools..."
+  xcode-select --install
+  until xcode-select -p &>/dev/null; do sleep 5; done
+fi
+
+# Install Homebrew if missing, and make sure it's on PATH for this script
+if ! command -v brew &>/dev/null; then
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+if [[ -x /opt/homebrew/bin/brew ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
 
 # Essentials
 brew install lua
@@ -53,7 +66,7 @@ mkdir -p "$HOME/.config"
 rm -rf "$HOME/.config/sketchybar"
 ln -sf "$HOME/.dotfiles/sketchybar" "$HOME/.config/sketchybar"
 ln -sf "$HOME/.dotfiles/aerospace/aerospace.toml" "$HOME/.aerospace.toml"
-ln -sf ~/.dotfiles/wezterm ~/.config/wezterm
+ln -sfn "$HOME/.dotfiles/wezterm" "$HOME/.config/wezterm"
 
 # Symlink Starship config
 echo "Setting up Starship prompt..."
@@ -97,6 +110,8 @@ killall Dock
 
 
 # Start Services
+# Launch once so the apps appear in the Accessibility list, then restart
+# them after permissions are granted (they don't pick up permissions live)
 echo "Starting Services (grant permissions)..."
 open -a aerospace
 brew services start sketchybar
@@ -105,3 +120,10 @@ brew services start borders
 echo "Please grant Accessibility permissions for Aerospace and SketchyBar in System Settings."
 open "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"
 read -p "Press [Enter] after granting permissions to continue..."
+
+echo "Restarting services with permissions..."
+osascript -e 'quit app "AeroSpace"'
+sleep 2
+open -a aerospace
+brew services restart sketchybar
+brew services restart borders

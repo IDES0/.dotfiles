@@ -23,14 +23,13 @@ after-startup-command = [
 exec-on-workspace-change = [
   '/bin/bash',
   '-c',
-  'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE FOCUSED_DISPLAY=$(aerospace list-monitors --focused | awk "{print $1}")',
+  'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE FOCUSED_DISPLAY="$(aerospace list-monitors --focused | cut -d" " -f1)"',
 ]
 
 # Notify Sketchybar about focus change
 # See https://nikitabobko.github.io/AeroSpace/guide#on-focus-changed-callbacks
-# Commented out to avoid duplicate events with exec-on-workspace-change
 on-focus-changed = [
-  'exec-and-forget sketchybar --trigger aerospace_focus_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE',
+  'exec-and-forget sketchybar --trigger aerospace_focus_change',
 ]
 
 # Start AeroSpace at login
@@ -76,7 +75,7 @@ inner.vertical = 10
 outer.left = 3
 outer.bottom = 3
 outer.top = [
-  { monitor."LG HDR 4K" = 40 },
+  { monitor."LG TV SSCR2" = 40 },
   { monitor."Sidecar Display" = 40 },
   10,
 ]

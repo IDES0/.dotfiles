@@ -51,6 +51,11 @@ return {
         action = act.SplitHorizontal({
             domain = "CurrentPaneDomain"
         })
+    }, -- disable WezTerm's fake fullscreen; it fights AeroSpace (use alt-f instead)
+    {
+        key = "Enter",
+        mods = "ALT",
+        action = act.DisableDefaultAssignment
     }},
 
     key_tables = {

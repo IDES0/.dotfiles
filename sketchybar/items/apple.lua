@@ -2,7 +2,7 @@ local colors = require("colors")
 local icons = require("icons")
 local settings = require("settings")
 
-local apple = sbar.add("item", {
+local apple = sbar.add("item", "apple", {
     icon = {
         font = {
             family = "FiraCode Nerd Font Mono",
@@ -56,11 +56,12 @@ apple:subscribe("aerospace_leave_service_mode", function(_)
                 border_width = 1
             },
             icon = {
-                highlight = false,
-                string = ""
+                highlight = false
             }
         })
     end)
+    -- Restore the caffeine icon/color replaced by the service-mode icon
+    sbar.exec("$CONFIG_DIR/scripts/caffeine.sh status")
 end)
 
 -- Padding to the right of the main button
